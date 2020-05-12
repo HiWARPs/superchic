@@ -23,7 +23,7 @@ brew tap davidchall/hep
 brew install lhapdf
 ```
 
-2a. Alternatively, follow Sections 2 and 3 of the manual `superchic3.05LbyL/doc/superchic3.pdf' to install and perform the neccessary path modifications. Possibly [Doxygen](http://www.doxygen.nl/download.html) needs to be installed as well.
+    2a. Alternatively, follow Sections 2 and 3 of the manual `superchic3.05LbyL/doc/superchic3.pdf' to install the library. In that case, [Doxygen](http://www.doxygen.nl/download.html) might need to be installed as well.
 
 3. Download the PDF set  [MMHT2014lo68cl](http://lhapdfsets.web.cern.ch/lhapdfsets/current/MMHT2014lo68cl.tar.gz) and untar it in the `.../share/LHAPDF` directory
 
