@@ -16,11 +16,18 @@ for the corresponding case.
 POSSIBLE ISSUES WITH LHAPDF INSTALLATION
 
 Installation instructions and files for LHAPDF library can be found at https://lhapdf.hepforge.org/install.html .
+The necessary path modification is shown in /doc/superchic3.pdf guide.
 
 Probably LHAPDF library will need Doxygen. It can be found at http://www.doxygen.nl/download.html .
 
-The library makes use of the PDF set: MMHT2014lo68cl. It can be found in the list of the all sets at https://lhapdf.hepforge.org/pdfsets.html .
-One should untar the set in the /share/LHAPDF directory
+The library makes use of the PDF set: MMHT2014lo68cl. If LHAPDF cannot find this set, the code terminates with the following error:
+
+    libc++abi.dylib: terminating with uncaught exception of type LHAPDF::ReadError: Info file not found for PDF set 'MMHT2014lo68cl'
+
+    Program received signal SIGABRT: Process abort signal.
+
+This set can be found in the list of the all sets at https://lhapdf.hepforge.org/pdfsets.html .
+One should untar it in the /share/LHAPDF directory
 
 -------------------------------------------------------------------------------------------------------------------------
 ELASTIC LbL SCATTERING PART OF THE CODE
