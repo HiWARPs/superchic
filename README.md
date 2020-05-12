@@ -27,14 +27,14 @@ brew install lhapdf
 
 3. Download the PDF set  [MMHT2014lo68cl](http://lhapdfsets.web.cern.ch/lhapdfsets/current/MMHT2014lo68cl.tar.gz) and untar it in the `.../share/LHAPDF` directory
 
-4. Compile 
+4. Compile by running make in the project directory containing the makefile
 ```
 make
 ```
 
 ## Running
 
-Run
+In the bin directory run
 ```
 ./init < input_run2.DAT
 ```
