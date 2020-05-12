@@ -13,15 +13,15 @@ Compiles/runs as in manual `superchic3.05LbyL/doc/superchic3.pdf`, but new addit
 
 General remarks on the installation process are given in the manual `superchic3.05LbyL/doc/superchic3.pdf` in sect.2 and 3.
 
-Firstly one should install [LHAPDF](https://lhapdf.hepforge.org/install.html) library and perform the neccessary path modification according to sect.3 of manual.
+1. Install [LHAPDF](https://lhapdf.hepforge.org/install.html) library and perform the neccessary path modification according to sect.3 of manual.
 
-Probably LHAPDF library will need [Doxygen](http://www.doxygen.nl/download.html) to be installed as well.
+Possibly LHAPDF library will need [Doxygen](http://www.doxygen.nl/download.html) to be installed as well.
 
-The final step is to download the pdf set  [MMHT2014lo68cl](http://lhapdfsets.web.cern.ch/lhapdfsets/current/MMHT2014lo68cl.tar.gz) and untar it in the `/share/LHAPDF` directory
+The final step is to download the pdf set  [MMHT2014lo68cl](http://lhapdfsets.web.cern.ch/lhapdfsets/current/MMHT2014lo68cl.tar.gz) and untar it in the `.../share/LHAPDF` directory
 
 ## Running
 
-As discussed in the manual, you need to run
+To run
 ```
 ./init < input_run2.DAT
 ```
