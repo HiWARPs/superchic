@@ -27,22 +27,22 @@ brew install lhapdf
 
 3. Download the PDF set  [MMHT2014lo68cl](http://lhapdfsets.web.cern.ch/lhapdfsets/current/MMHT2014lo68cl.tar.gz) and untar it in the `.../share/LHAPDF` directory
 
-4. Compile 
+4. Compile by running make in the project directory containing the makefile
 ```
 make
 ```
 
 ## Running
 
-Run
+In the bin directory run
 ```
-./init < input_run2.DAT
+./init < input_run3.DAT
 ```
-(or input_run3.DAT, it doesn't matter - only the rts has to be consistent for this) once. Next run
+(or input_run2.DAT). Next run
 ```
-./superchic < input_***.DAT
+./superchic < input_run3.DAT
 ```
-for the corresponding case.
+(or input_run2.DAT).
 
 ### Possible issues
 
