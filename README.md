@@ -25,7 +25,12 @@ brew install lhapdf
 
   2a. Alternatively, follow Sections 2 and 3 of the manual `superchic3.05LbyL/doc/superchic3.pdf' to install the library. In that case, [Doxygen](http://www.doxygen.nl/download.html) might need to be installed as well.
 
-3. Download the PDF set  [MMHT2014lo68cl](http://lhapdfsets.web.cern.ch/lhapdfsets/current/MMHT2014lo68cl.tar.gz) and untar into the `$LHAPDF/share/LHAPDF/` directory
+3. Download the PDF set  [MMHT2014lo68cl](http://lhapdfsets.web.cern.ch/lhapdfsets/current/MMHT2014lo68cl.tar.gz) and untar into the `$LHAPDF/share/LHAPDF/` directory, where $LHAPDF is the intallation directory of the library
+```
+mv MMHT2014lo68cl.tar.gz $LHAPDF/share/LHAPDF/
+cd $LHAPDF/share/LHAPDF
+tar xvfz MMHT2014lo68cl.tar.gz
+```
 
 4. Compile by running make in the project directory containing the makefile
 ```
