@@ -16,7 +16,7 @@ Compiles/runs as in manual `doc/superchic3.pdf`, but new additions wrt LbyL *not
 git clone https://github.com/HiWARPs/LbL_CEP.git
 ```
 
-2. Install [LHAPDF](https://lhapdf.hepforge.org/install.html) library 
+2. Install [LHAPDF](https://lhapdf.hepforge.org/install.html) library using Homebrew package manager
 
 ```
 brew tap davidchall/hep
