@@ -13,7 +13,7 @@ Compiles/runs as in manual `doc/superchic3.pdf`, but new additions wrt LbyL *not
 1. Clone the repository
 
 ```
-git clone https://github.com/HiWARPs/LbL_CEP.git
+git clone https://github.com/HiWARPs/superchic.git
 ```
 
 2. Install [LHAPDF](https://lhapdf.hepforge.org/install.html) library using Homebrew package manager
