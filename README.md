@@ -16,7 +16,7 @@ Compiles/runs as in manual `doc/superchic3.pdf`, but new additions wrt LbyL *not
 git clone https://github.com/HiWARPs/LbL_CEP.git
 ```
 
-2. Install [LHAPDF](https://lhapdf.hepforge.org/install.html) library 
+2. Install [LHAPDF](https://lhapdf.hepforge.org/install.html) library using Homebrew package manager
 
 ```
 brew tap davidchall/hep
@@ -25,7 +25,7 @@ brew install lhapdf
 
   2a. Alternatively, follow Sections 2 and 3 of the manual `superchic3.05LbyL/doc/superchic3.pdf' to install the library. In that case, [Doxygen](http://www.doxygen.nl/download.html) might need to be installed as well.
 
-3. Download the PDF set  [MMHT2014lo68cl](http://lhapdfsets.web.cern.ch/lhapdfsets/current/MMHT2014lo68cl.tar.gz) and untar into the `$LHAPDF/share/LHAPDF/` directory, where $LHAPDF is the intallation directory of the library
+3. Download the PDF set  [MMHT2014lo68cl](http://lhapdfsets.web.cern.ch/lhapdfsets/current/MMHT2014lo68cl.tar.gz) and untar into the `$LHAPDF/share/LHAPDF/` directory, where $LHAPDF is the intallation directory of the library (usually, export $LHAPDF=/usr/local/Cellar/lhapdf/6.2.1 )
 ```
 mv MMHT2014lo68cl.tar.gz $LHAPDF/share/LHAPDF/
 cd $LHAPDF/share/LHAPDF
