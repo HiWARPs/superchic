@@ -1,4 +1,4 @@
-# SuperChic v3.05 LbyL (by [Lucian Harland-Lang](lucian.harland-lang@physics.ox.ac.uk))
+## SuperChic v3.05 LbyL (by [Lucian Harland-Lang](lucian.harland-lang@physics.ox.ac.uk))
 
 SuperChic 3 is a Fortran based Monte Carlo event generator for central
 exclusive production at parton level, for a range of Standard Model final
@@ -7,7 +7,7 @@ in HEPEVT and Les Houches formats. By default the program makes use
 of the LHAPDF library, but otherwise the code is completely stand–alone.
 
 
-Compiles/runs as in manual `superchic3.05LbyL/doc/superchic3.pdf`, but new additions wrt LbyL *not* described there. The new inputs for this are provided at the bottom of the input files - they had been set up for the run2 and run3 kinematics described in the Overleaf (additional cuts on e.g. acoplanarity not included). 
+Compiles/runs as in manual `doc/superchic3.pdf`, but new additions wrt LbyL *not* described there. The new inputs for this are provided at the bottom of the input files - they had been set up for the run2 and run3 kinematics described in the Overleaf (additional cuts on e.g. acoplanarity not included). 
 
 ## Installation
 1. Clone the repository
