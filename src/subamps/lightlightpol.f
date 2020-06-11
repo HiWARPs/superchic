@@ -12,7 +12,7 @@
       complex*16 ztest1,ztest2,ztest3,ztest4
       complex*16 zmprot,zfs,zft,zfu
       complex*16 znpp,znpm,zrh,zppt,zpmt
-      complex*16 zmes(5)
+      complex*16 zmes(5),zlep(5)
       double precision qfarr(12)
       integer lmin,lmax
       
@@ -55,6 +55,7 @@
       norm=dsqrt(norm)
 
       sh=mx**2
+
       
 ccccccccccccccc
       
@@ -86,20 +87,26 @@ ccccccccccccccc
       zppt=0d0
       zpmt=0d0
 
-      if(loop.eq.'tot')then
+      if(loop.eq.'tot_quark')then
+         lmin=1
+         lmax=9
+      elseif(loop.eq.'tot_sum')then
          lmin=1
          lmax=9
       elseif(loop.eq.'lep')then
          lmin=1
          lmax=3
-      elseif(loop.eq.'quark'.or.loop.eq.'sum')then
+      elseif(loop.eq.'quark')then
          lmin=4
          lmax=9
       elseif(loop.eq.'pion')then
          lmin=10
          lmax=10
+      elseif(loop.eq.'tot_meson')then
+         lmin=1
+         lmax=11
       elseif(loop.eq.'meson')then
-c         lmin=11
+c         lmin=10
          lmin=4
          lmax=11
       elseif(loop.eq.'w')then
@@ -108,6 +115,7 @@ c         lmin=11
          lmin=4
          lmax=9
       endif
+
          
       do i=lmin,lmax                  ! number of fermion loop particles
          
@@ -135,9 +143,6 @@ c         lmin=11
          
          mgen2=mpip**2
          mgen2i=dcmplx(mpip**2,-1d-30)
-
-c$$$         mgen2=mars(1)
-c$$$         mgen2i=marsi(1)
 
          cqfactor=1d0
 
@@ -365,11 +370,25 @@ c         qedamp(1,1,1,2)=0d0
 
       
       endif
+
+      if(i.eq.3)then
+         zlep(1)=qedamp(1,1,2,2)
+         zlep(2)=qedamp(1,1,1,2)
+         zlep(3)=qedamp(1,1,1,1)
+         zlep(4)=qedamp(1,2,2,1)
+         zlep(5)=qedamp(1,2,1,2)
+         qedamp(1,1,2,2)=0d0
+         qedamp(1,1,1,2)=0d0
+         qedamp(1,1,1,1)=0d0
+         qedamp(1,2,2,1)=0d0
+         qedamp(1,2,1,2)=0d0
+      endif
+      
       enddo
 
 ccccccccc  Normalize
 
-      if(loop.eq.'sum')then
+      if(sumr)then
          
          call rhint(1,dsqrt(sh),out1)
          call rhint(2,dsqrt(sh),out2)
@@ -395,12 +414,6 @@ ccccccccc  Normalize
          endif
          fermipm=fermipp
 
-c$$$         if(dsqrt(sh).lt.2d0)then
-c$$$            print*,sh,t,u,xi_fermi/eta_fermi,x0_fermi,w_fermi
-c$$$            print*,fermipp
-c$$$            print*,''
-c$$$         endif
-
          if(interpolate)then
             qedamp(1,1,1,1)=znpp*fermipp+qedamp(1,1,1,1)*(1d0-fermipp)
             qedamp(1,2,1,2)=znpm*fermipm+qedamp(1,2,1,2)*(1d0-fermipm)
@@ -411,7 +424,18 @@ c$$$         endif
 
       endif
          
-ccccccccc      
+ccccccccc
+
+      if(loop.eq.'tot_quark'.or.loop.eq.'tot_sum'.or.loop.eq.'tot_meson'
+     &     .or.loop.eq.'lep')then
+         
+         qedamp(1,1,2,2)=qedamp(1,1,2,2)+zlep(1)
+         qedamp(1,1,1,2)=qedamp(1,1,1,2)+zlep(2)
+         qedamp(1,1,1,1)=qedamp(1,1,1,1)+zlep(3)
+         qedamp(1,2,2,1)=qedamp(1,2,2,1)+zlep(4)
+         qedamp(1,2,1,2)=qedamp(1,2,1,2)+zlep(5)
+
+      endif
       
       
       qedamp(1,1,2,1) = qedamp(1,1,1,2)
@@ -552,7 +576,7 @@ c         stop
       
       efac=1.5d0
 
-      if(loop.eq.'tot'.or.loop.eq.'w')then
+      if(loop.eq.'tot_quark'.or.loop.eq.'tot_sum'.or.loop.eq.'w')then
          
       if(p.eq.1)then
          pp=pp-ewamp(1,1,1,1)*efac

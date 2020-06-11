@@ -364,6 +364,10 @@ c$$$t = 173
       decay4=.false.
       decay6=.false.
 
+      sumr=.false.
+      if(loop.eq.'sum'.or.loop.eq.'tot_sum')sumr=.true.
+c      if(loop.eq.'meson')interpolate=.false.
+      
 cccccccccccc
 
       do i=1,20

@@ -12,6 +12,7 @@
       complex*16 ztest1,ztest2,ztest3,ztest4
       complex*16 zmprot,zfs,zft,zfu
       complex*16 znpp,znpm,zrh,zppt,zpmt
+      complex*16 zmes(5)
       double precision qfarr(12)
       integer lmin,lmax
       
@@ -27,7 +28,8 @@
       include 'norm.f'
       include 'mpip.f'
       include 'lbylloop.f'
-     
+      include 'interpolate.f'
+      
       
       mz=91.1876d0
       stw=0.48076d0
@@ -92,21 +94,17 @@ ccccccccccccccc
          lmax=3
       elseif(loop.eq.'quark'.or.loop.eq.'sum')then
          lmin=4
-c     lmax=9
-         lmin=4
          lmax=9
       elseif(loop.eq.'pion')then
          lmin=10
          lmax=10
       elseif(loop.eq.'meson')then
-         lmin=11
+c         lmin=11
+         lmin=4
          lmax=11
       elseif(loop.eq.'w')then
          goto 666
       elseif(loop.eq.'sum')then
-         call rhint(1,mx,out1)
-         call rhint(2,mx,out2)
-         znsum=out1+zi*out2
          lmin=4
          lmax=9
       endif
@@ -119,6 +117,21 @@ c     lmax=9
 
 
       if(i.eq.10)then
+
+         
+         if(interpolate)then
+            zmes(1)=qedamp(1,1,2,2)
+            zmes(2)=qedamp(1,1,1,2)
+            zmes(3)=qedamp(1,1,1,1)
+            zmes(4)=qedamp(1,2,2,1)
+            zmes(5)=qedamp(1,2,1,2)
+         endif
+         
+         qedamp(1,1,2,2)=0d0
+         qedamp(1,1,1,2)=0d0
+         qedamp(1,1,1,1)=0d0
+         qedamp(1,2,2,1)=0d0
+         qedamp(1,2,1,2)=0d0
          
          mgen2=mpip**2
          mgen2i=dcmplx(mpip**2,-1d-30)
@@ -177,7 +190,7 @@ c$$$         mgen2i=marsi(1)
      &     +2d0*mgen2**2*(d0ccccqstsffff+d0ccccqsusffff+d0ccccustsffff))
 
       elseif(i.eq.11)then
-
+       
          cqfactor=1d0
 
          mprot=0.938d0
@@ -195,27 +208,36 @@ c$$$         mgen2i=marsi(1)
          meta=547.862d-3
          metap=957.78d-3
 
+         lamexp=2d0
+         
          zfs=1d0
          zft=1d0
          zfu=1d0
 
-         zfs=2d0*mprot**2*c01(0d0,0d0,-sh,zmprot,zmprot,zmprot)
-         zfs=zfs**2
-         zft=2d0*mprot**2*c01(0d0,0d0,-t,zmprot,zmprot,zmprot)
-         zft=zft**2
-         zfu=2d0*mprot**2*c01(0d0,0d0,-u,zmprot,zmprot,zmprot)
-         zfu=zfu**2
+cccc    Have set form factors to 1 as interpolating via Fermi distribution!        
+
+c$$$         zfs=2d0*mprot**2*c01(0d0,0d0,-sh,zmprot,zmprot,zmprot)
+c$$$c         zfs=dexp(-(sh-mpi0**2)**2/lamexp**4) ! Szczurek et al.
+c$$$         zfs=zfs**2
+c$$$         zft=2d0*mprot**2*c01(0d0,0d0,-t,zmprot,zmprot,zmprot)
+c$$$c         zft=dexp((t-mpi0**2)/lamexp**2) ! Szczurek et al.
+c$$$         zft=zft**2
+c$$$         zfu=2d0*mprot**2*c01(0d0,0d0,-u,zmprot,zmprot,zmprot)
+c$$$c         zfu=dexp((u-mpi0**2)/lamexp**2)  ! Szczurek et al.
+c$$$         zfu=zfu**2
          
-         qedamp(1,1,1,1)=1d0/(sh-mpi0**2+zi*mpi0*gampi0)/fpi0**2
+         qedamp(1,1,1,1)=qedamp(1,1,1,1)
+     &        +1d0/(sh-mpi0**2+zi*mpi0*gampi0)/fpi0**2
          qedamp(1,1,1,1)=qedamp(1,1,1,1)
      &        +1d0/(sh-meta**2+zi*meta*gameta)/feta**2
          qedamp(1,1,1,1)=qedamp(1,1,1,1)
      &        +1d0/(sh-metap**2+zi*metap*gametap)/fetap**2
          qedamp(1,1,1,1)=qedamp(1,1,1,1)*(-sh**2/4d0/pi**2)/8d0*zfs
 
-         qedamp(1,1,1,2)=0d0
+c         qedamp(1,1,1,2)=0d0
 
-         qedamp(1,1,2,2)=(sh**2/(sh-mpi0**2+zi*mpi0*gampi0)*zfs
+         qedamp(1,1,2,2)=qedamp(1,1,2,2)
+     &        +(sh**2/(sh-mpi0**2+zi*mpi0*gampi0)*zfs
      &        +t**2/(t-mpi0**2+zi*mpi0*gampi0)*zft
      &        +u**2/(u-mpi0**2+zi*mpi0*gampi0)*zfu)/fpi0**2
          qedamp(1,1,2,2)=qedamp(1,1,2,2)
@@ -228,20 +250,52 @@ c$$$         mgen2i=marsi(1)
      &        +u**2/(u-metap**2+zi*mpi0*gametap)*zfu)/fetap**2
          qedamp(1,1,2,2)=qedamp(1,1,2,2)/4d0/pi**2/8d0
 
-         qedamp(1,2,2,1)=1d0/(t-mpi0**2+zi*mpi0*gampi0)/fpi0**2
+         qedamp(1,2,2,1)=qedamp(1,2,2,1)
+     &        +1d0/(t-mpi0**2+zi*mpi0*gampi0)/fpi0**2
          qedamp(1,2,2,1)=qedamp(1,2,2,1)
      &        +1d0/(t-meta**2+zi*meta*gameta)/feta**2
          qedamp(1,2,2,1)=qedamp(1,2,2,1)
      &        +1d0/(t-metap**2+zi*metap*gametap)/fetap**2
          qedamp(1,2,2,1)=qedamp(1,2,2,1)*(-t**2/4d0/pi**2)/8d0*zft
 
-         qedamp(1,2,1,2)=1d0/(u-mpi0**2+zi*mpi0*gampi0)/fpi0**2
+         qedamp(1,2,1,2)=qedamp(1,2,1,2)
+     &        +1d0/(u-mpi0**2+zi*mpi0*gampi0)/fpi0**2
          qedamp(1,2,1,2)=qedamp(1,2,1,2)
      &        +1d0/(u-meta**2+zi*meta*gameta)/feta**2
          qedamp(1,2,1,2)=qedamp(1,2,1,2)
      &        +1d0/(u-metap**2+zi*metap*gametap)/fetap**2
          qedamp(1,2,1,2)=qedamp(1,2,1,2)*(-u**2/4d0/pi**2)/8d0*zfu
 
+         if(interpolate)then
+            
+            xi_fermi=sh*t*u
+            eta_fermi=-(sh*t+t*u+sh*u)
+            
+            x0_fermi=kappa
+            w_fermi=1d0/5d0*x0_fermi
+            
+            if(fermivar.eq.'xi')then
+               fermipp=fermi(xi_fermi,x0_fermi,w_fermi)
+            elseif(fermivar.eq.'xi/eta')then
+               fermipp=fermi(xi_fermi/eta_fermi,x0_fermi,w_fermi)
+            else
+               print*,'Incorrect fermi var.'
+               stop
+            endif
+
+
+            qedamp(1,1,2,2)=zmes(1)*(1d0-fermipp)
+     &           +qedamp(1,1,2,2)*fermipp
+            qedamp(1,1,1,2)=zmes(2)*(1d0-fermipp)
+     &           +qedamp(1,1,1,2)*fermipp
+            qedamp(1,1,1,1)=zmes(3)*(1d0-fermipp)
+     &           +qedamp(1,1,1,1)*fermipp
+            qedamp(1,2,2,1)=zmes(4)*(1d0-fermipp)
+     &           +qedamp(1,2,2,1)*fermipp
+            qedamp(1,2,1,2)=zmes(5)*(1d0-fermipp)
+     &           +qedamp(1,2,1,2)*fermipp
+
+         endif
          
       elseif (mgen2.eq.0) then
          
@@ -264,89 +318,6 @@ c$$$         mgen2i=marsi(1)
      & -(1d0/2 - sh*u/t**2)*LOG(-u/sh)**2) 
 
       else
-
-         if(loop.eq.'sum')then
-
-            thp=-sh*1d-20
-            uhp=-thp-sh
-
-            b0fqsff = b0f2m(sh,mgen2i)
-            b0ftsff = b0f2m(thp,mgen2i)
-            b0fusff = b0f2m(uhp,mgen2i)
-            
-      
-            c0ccqsfff = -c01(0d0,0d0,-sh,mgen2i,mgen2i,mgen2i)
-            c0cctsfff = -c01(0d0,0d0,-thp,mgen2i,mgen2i,mgen2i)
-            c0ccusfff = -c01(0d0,0d0,-uhp,mgen2i,mgen2i,mgen2i)
-            d0ccccqstsffff = d0404M(sh,thp,mgen2i)
-            d0ccccqsusffff = d0404M(sh,uhp,mgen2i)
-            d0ccccustsffff = d0404M(uhp,thp,mgen2i)
-
-            znpp=(
-     &           -1d0+(uhp-thp)/sh*(b0fusff-b0ftsff)
-     &           +(4d0*mgen2/sh+2d0*(thp*uhp/sh**2-1d0/2d0))*
-     &           (uhp*c0ccusfff+thp*c0cctsfff)
-     &           -2d0*mgen2*sh*(mgen2/sh-1d0/2d0)*(d0ccccqstsffff
-     &                               +d0ccccqsusffff+d0ccccustsffff)
-     &           -thp*uhp*(4d0*mgen2/sh+thp*uhp/sh**2-1d0/2d0)*
-     &           d0ccccustsffff)
-
-            znpm=(
-     &           -1d0+(sh-thp)/uhp*(b0fqsff-b0ftsff)
-     &           +(4d0*mgen2/uhp+2d0*(thp*sh/uhp**2-1d0/2d0))*
-     &           (sh*c0ccqsfff+thp*c0cctsfff)
-     &           -2d0*mgen2*uhp*(mgen2/uhp-1d0/2d0)*(d0ccccqstsffff
-     &           +d0ccccqsusffff+d0ccccustsffff)
-     &           -thp*sh*(4d0*mgen2/uhp+thp*sh/uhp**2-1d0/2d0)*
-     &           d0ccccqstsffff)
-
-c            zppt=zppt+znpp*cqfactor*8d0
-c           zpmt=zpmt+znpm*cqfactor*8d0
-
-
-               call mint(1,1,i,dsqrt(sh),out1)
-               call mint(1,2,i,dsqrt(sh),out2)
-               zppt=zppt+out1+zi*out2
-               call mint(2,1,i,dsqrt(sh),out1)
-               call mint(2,2,i,dsqrt(sh),out2)
-               zpmt=zpmt+out1+zi*out2
-               
-c               znpp=zppt
-c               znpm=zpmt
-            
-c     if(mx.gt.5d0)then
-c$$$            if(i.le.8)then
-c$$$
-c$$$               call mint(1,1,i,dsqrt(sh),out1)
-c$$$               call mint(1,2,i,dsqrt(sh),out2)
-c$$$               zppt=out1+zi*out2
-c$$$               call mint(2,1,i,dsqrt(sh),out1)
-c$$$               call mint(2,2,i,dsqrt(sh),out2)
-c$$$               zpmt=out1+zi*out2
-c$$$               
-c$$$c               print*,dsqrt(mgen2),cqfactor,(1d0/3d0)**4*3d0
-c$$$c               print*,mx,znpp*8d0*cqfactor,znpm*8d0*cqfactor
-c$$$c               print*,zppt,zpmt
-c$$$               print*,i,mx,znpp*8d0*cqfactor/zppt,znpm*8d0*cqfactor/zpmt
-c$$$               print*,''
-c$$$            endif
-c     endif
-c               print*,zrh,znpp,znpm
-
-
-c$$$
-c$$$            if(cdabs(znpm).gt.0d0.or.cdabs(znpm).eq.0d0)then
-c$$$            else
-c$$$               print*,i,dsqrt(sh),znpm,zpmt
-c$$$            endif
-            
-
-c$$$            print*,i,dsqrt(sh),znpp,znpm
-c$$$            print*,zppt,zpmt,zrh
-c$$$            print*,''
-c            print*,'tt',znpp/cqfactor,znpm/cqfactor
-            
-         endif
          
       b0fqsff = b0f2m(sh,mgen2i)
       b0ftsff = b0f2m(t,mgen2i)
@@ -369,27 +340,6 @@ c            print*,'tt',znpp/cqfactor,znpm/cqfactor
      & -mgen2*((2d0*mgen2+sh*t/u)*d0ccccqstsffff
      &         +(2d0*mgen2+sh*u/t)*d0ccccqsusffff
      &         +(2d0*mgen2+t*u/sh)*d0ccccustsffff))
-
-c$$$      if(loop.eq.'sum'.and.i.le.8)then
-c$$$
-c$$$         qedamp(1,1,1,1) = qedamp(1,1,1,1) + cqfactor*(
-c$$$     & -1d0+(u-t)/sh*(b0fusff-b0ftsff)
-c$$$     & +(4d0*mgen2/sh+2d0*(t*u/sh**2-1d0/2d0))*(u*c0ccusfff+t*c0cctsfff)
-c$$$     & -2d0*mgen2*sh*(mgen2/sh-1d0/2d0)*(d0ccccqstsffff
-c$$$     &                               +d0ccccqsusffff+d0ccccustsffff)
-c$$$     & -t*u*(4d0*mgen2/sh+t*u/sh**2-1d0/2d0)*d0ccccustsffff)*znpp
-c$$$
-c$$$      
-c$$$      qedamp(1,2,2,1) = qedamp(1,2,2,1) + cqfactor*(
-c$$$     & -1d0+(sh-t)/u*(b0fqsff-b0ftsff)
-c$$$     & +(4d0*mgen2/u+2d0*(t*sh/u**2-1d0/2d0))*(sh*c0ccqsfff+t*c0cctsfff)
-c$$$     & -2d0*mgen2*u*(mgen2/u-1d0/2d0)*(d0ccccqstsffff
-c$$$     &                        +d0ccccqsusffff+d0ccccustsffff)
-c$$$     &     -t*sh*(4d0*mgen2/u+t*sh/u**2-1d0/2d0)*d0ccccqstsffff)*znpm
-
-
-c$$$      
-c$$$      else
          
       qedamp(1,1,1,1) = qedamp(1,1,1,1) + cqfactor*(
      & -1d0+(u-t)/sh*(b0fusff-b0ftsff)
@@ -406,8 +356,6 @@ c$$$      else
      &                        +d0ccccqsusffff+d0ccccustsffff)
      &     -t*sh*(4d0*mgen2/u+t*sh/u**2-1d0/2d0)*d0ccccqstsffff)
 
-c$$$      endif
-
       qedamp(1,2,1,2) = qedamp(1,2,1,2) + cqfactor*(
      & -1d0+(u-sh)/t*(b0fusff-b0fqsff)
      & +(4d0*mgen2/t+2d0*(sh*u/t**2-1d0/2d0))*(u*c0ccusfff+sh*c0ccqsfff)
@@ -415,36 +363,6 @@ c$$$      endif
      &                        +d0ccccqsusffff+d0ccccustsffff)
      & -sh*u*(4d0*mgen2/t+sh*u/t**2-1d0/2d0)*d0ccccqsusffff)
 
-c$$$      write(6,*)i,
-c$$$     & -1d0+(u-t)/sh*(b0fusff-b0ftsff)
-c$$$     & +(4d0*mgen2/sh+2d0*(t*u/sh**2-1d0/2d0))*(u*c0ccusfff+t*c0cctsfff)
-c$$$     & -2d0*mgen2*sh*(mgen2/sh-1d0/2d0)*(d0ccccqstsffff
-c$$$     &                               +d0ccccqsusffff+d0ccccustsffff)
-c$$$     &     -t*u*(4d0*mgen2/sh+t*u/sh**2-1d0/2d0)*d0ccccustsffff,
-c$$$     &-1d0+(sh-t)/u*(b0fqsff-b0ftsff)
-c$$$     & +(4d0*mgen2/u+2d0*(t*sh/u**2-1d0/2d0))*(sh*c0ccqsfff+t*c0cctsfff)
-c$$$     & -2d0*mgen2*u*(mgen2/u-1d0/2d0)*(d0ccccqstsffff
-c$$$     &                        +d0ccccqsusffff+d0ccccustsffff)
-c$$$     & -t*sh*(4d0*mgen2/u+t*sh/u**2-1d0/2d0)*d0ccccqstsffff
-
-
-c$$$      write(6,*)i,  ! ++++
-c$$$     & -1d0 + (t-u)/sh*(LOG(-u/sh) - LOG(-t/sh))
-c$$$     &     -(1d0/2 - u*t/sh**2)*((LOG(-u/sh)-LOG(-t/sh))**2 + pi**2),
-c$$$     & -1d0 - zi*pi*(u-sh)/t
-c$$$     & -((1d0 + zi*pi)*(u-sh)/t + 2d0*zi*pi*(u/t)**2)*LOG(-u/sh)
-c$$$     &     -(1d0/2d0 - sh*u/t**2)*LOG(-u/sh)**2
-
-c$$$      write(6,*)-1d0 - zi*pi*(u-sh)/t
-c$$$     &     -((1d0 + zi*pi)*(u-sh)/t + 2d0*zi*pi*(u/t)**2)*LOG(-u/sh)
-c$$$     &     -(1d0/2d0 - sh*u/t**2)*LOG(-u/sh)**2
-c$$$      write(6,*) -1d0 - zi*pi*(u-sh)/t
-c$$$     &     ,-((1d0 + zi*pi)*(u-sh)/t + 2d0*zi*pi*(u/t)**2)*LOG(-u/sh),
-c$$$     &     -(1d0/2d0 - sh*u/t**2)*LOG(-u/sh)**2
-c$$$
-c$$$      write(6,*)-1d0+2d0*pi*zi*sh/t+zi*pi
-c$$$      write(6,*)LOG(-u/sh)*(1d0 + zi*pi)*(u-sh)/t
-c$$$     &     ,2d0*zi*pi*(u/t)**2*LOG(-u/sh)
       
       endif
       enddo
@@ -452,40 +370,44 @@ c$$$     &     ,2d0*zi*pi*(u/t)**2*LOG(-u/sh)
 ccccccccc  Normalize
 
       if(loop.eq.'sum')then
-
-c         shp=2d0
-         
-         kappa_fermi=0.01d0
-         eta_fermi=1d0/7d0
-
-c         thp=0d0
-         
-c         print*,shp
-c     &        ,fermi(-thp,kappa_fermi*shp,eta_fermi*kappa_fermi*shp)
-
          
          call rhint(1,dsqrt(sh),out1)
          call rhint(2,dsqrt(sh),out2)
          zrh=out1+zi*out2
          zrh=zrh/alpha**2
 
-         znpp=zrh/zppt
-         znpm=zrh/zpmt
+         znpp=zrh/8d0  ! match to normalization of qedamp
+         znpm=zrh/8d0
 
-c         print*,sh,t,znpp
-
-         znpp=(znpp-1d0)*(fermi(-t,kappa_fermi*sh
-     &        ,eta_fermi*kappa_fermi*sh)+fermi(sh+t,kappa_fermi*sh
-     &        ,eta_fermi*kappa_fermi*sh))+1d0
-         znpm=(znpm-1d0)*(fermi(-t,kappa_fermi*sh
-     &        ,eta_fermi*kappa_fermi*sh)+fermi(sh+t,kappa_fermi*sh
-     &        ,eta_fermi*kappa_fermi*sh))+1d0
-
-c         print*,sh,t,znpp
-c         print*,''
+         xi_fermi=sh*t*u
+         eta_fermi=-(sh*t+t*u+sh*u)
          
-         qedamp(1,1,1,1)=qedamp(1,1,1,1)*znpp
-         qedamp(1,2,1,2)=qedamp(1,2,1,2)*znpm
+         x0_fermi=kappa
+         w_fermi=x0_fermi/5d0
+         
+         if(fermivar.eq.'xi')then
+            fermipp=fermi(xi_fermi,x0_fermi,w_fermi)
+         elseif(fermivar.eq.'xi/eta')then
+            fermipp=fermi(xi_fermi/eta_fermi,x0_fermi,w_fermi)
+         else
+            print*,'Incorrect fermi var.'
+            stop
+         endif
+         fermipm=fermipp
+
+c$$$         if(dsqrt(sh).lt.2d0)then
+c$$$            print*,sh,t,u,xi_fermi/eta_fermi,x0_fermi,w_fermi
+c$$$            print*,fermipp
+c$$$            print*,''
+c$$$         endif
+
+         if(interpolate)then
+            qedamp(1,1,1,1)=znpp*fermipp+qedamp(1,1,1,1)*(1d0-fermipp)
+            qedamp(1,2,1,2)=znpm*fermipm+qedamp(1,2,1,2)*(1d0-fermipm)
+         else
+            qedamp(1,1,1,1)=znpp
+            qedamp(1,2,1,2)=znpm
+         endif
 
       endif
          
@@ -578,7 +500,7 @@ cccccccc
       endif
 
 
-           qedamp(1,1,2,1) = qedamp(1,1,1,2)
+      qedamp(1,1,2,1) = qedamp(1,1,1,2)
       qedamp(1,2,1,1) = qedamp(1,1,1,2)
       qedamp(1,2,2,2) = qedamp(1,1,1,2)
       qedamp(2,1,1,1) = qedamp(1,2,2,2)
