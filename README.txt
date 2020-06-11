@@ -12,27 +12,16 @@ As discussed in the manual, you need to run
 
 for the corresponding case.
 
--------------------------------------------------------------------------------------------------------------------------
-POSSIBLE ISSUES WITH LHAPDF INSTALLATION
+LbyL specific flags set in lines 149 to 153. The 'loop' flag can be set to:
 
-Installation instructions and files for LHAPDF library can be found at https://lhapdf.hepforge.org/install.html .
-The necessary path modification is shown in /doc/superchic3.pdf guide.
+lep : lepton loop
+quark: pQCD quark loop
+w: w loop
+pion: pion loop
+meson: meson exchanges + pion loop
+sum: rum rule result
+tot_quark: lepton + pQCD quark
+tot_meson: meson exchanges + pion loop + lepton
+tot+sum: sum rule + lepton
 
-Probably LHAPDF library will need Doxygen. It can be found at http://www.doxygen.nl/download.html .
-
-The library makes use of the PDF set: MMHT2014lo68cl. If LHAPDF cannot find this set, the code terminates with the following error:
-
-    libc++abi.dylib: terminating with uncaught exception of type LHAPDF::ReadError: Info file not found for PDF set 'MMHT2014lo68cl'
-
-    Program received signal SIGABRT: Process abort signal.
-
-This set can be found in the list of the all sets at https://lhapdf.hepforge.org/pdfsets.html .
-One should untar it in the /share/LHAPDF directory
-
--------------------------------------------------------------------------------------------------------------------------
-ELASTIC LbL SCATTERING PART OF THE CODE
-
-'src/subamps/lightlightpol.f' - main subroutine path.
-'src/subamps/RHint.f'         - source of 'rhint' interpolator of the input forward LbL low-energy amplitudes.
-'src/subamps/Msrule.dat'      - forward LbL low-energy amplitudes data file, M^{ansatz}(t=0) in Overleaf note, 
-                                depending on rts in GeV from 0.3 to 20 with step 0.05.
+'interpolate' is Fermi distribution interpolation, and can be used for meson, sum rule cases (as well as the corresponding 'tot').
