@@ -22,6 +22,6 @@ meson: meson exchanges + pion loop
 sum: rum rule result
 tot_quark: lepton + pQCD quark
 tot_meson: meson exchanges + pion loop + lepton
-tot+sum: sum rule + lepton
+tot_sum: sum rule + lepton
 
 'interpolate' is Fermi distribution interpolation, and can be used for meson, sum rule cases (as well as the corresponding 'tot').
