@@ -12,7 +12,7 @@ As discussed in the manual, you need to run
 
 for the corresponding case.
 
-LbyL specific flags set in lines 149 to 153. The 'loop' flag can be set to:
+LbyL specific flags set in lines 149 to 154. The 'loop' flag can be set to:
 
 lep : lepton loop
 quark: pQCD quark loop
@@ -25,3 +25,5 @@ tot_meson: meson exchanges + pion loop + lepton
 tot_sum: sum rule + lepton
 
 'interpolate' is Fermi distribution interpolation, and can be used for meson, sum rule cases (as well as the corresponding 'tot').
+
+'bottomonium' flag includes (.true.) or excludes (.false.) bottomonium resonances at the amplitude level in the considered lbl process. For particular implementation see lines 431-504 of lightlightpol.f
