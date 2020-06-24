@@ -29,6 +29,8 @@
       include 'mpip.f'
       include 'lbylloop.f'
       include 'interpolate.f'
+
+      include 'bottomonium.f' ! include bottomonium resonances
       
       
       mz=91.1876d0
@@ -59,20 +61,20 @@
       
 ccccccccccccccc
       
-      qfarr( 1) = -1d0
-      qfarr( 2) = -1d0
-      qfarr( 3) = -1d0
-      qfarr( 4) = -1d0/3d0
-      qfarr( 5) =  2d0/3d0
-      qfarr( 6) = -1d0/3d0
-      qfarr( 7) =  2d0/3d0
-      qfarr( 8) = -1d0/3d0
-      qfarr( 9) =  2d0/3d0
+      qfarr( 1) = -1d0     !
+      qfarr( 2) = -1d0     ! lepton charges
+      qfarr( 3) = -1d0     !
+      qfarr( 4) = -1d0/3d0    !
+      qfarr( 5) =  2d0/3d0    !
+      qfarr( 6) = -1d0/3d0    ! quark charges
+      qfarr( 7) =  2d0/3d0    !
+      qfarr( 8) = -1d0/3d0    !
+      qfarr( 9) =  2d0/3d0    !
  
       do i=1,9
          mars(i)=rmf1(i)**2
          marsi(i)=dcmplx(rmf1(i)**2,-1d-30)
-         cqfa(i)=qfarr(i)**4
+         cqfa(i)=qfarr(i)**4                 ! charge factors
          if(i.gt.3)cqfa(i)=cqfa(i)*3d0
       enddo
 
@@ -232,43 +234,43 @@ c$$$c         zfu=dexp((u-mpi0**2)/lamexp**2)  ! Szczurek et al.
 c$$$         zfu=zfu**2
          
          qedamp(1,1,1,1)=qedamp(1,1,1,1)
-     &        +1d0/(sh-mpi0**2+zi*mpi0*gampi0)/fpi0**2
+     &        +1d0/(sh-mpi0**2+zi*gampi0*sh**2/mpi0**3)/fpi0**2
          qedamp(1,1,1,1)=qedamp(1,1,1,1)
-     &        +1d0/(sh-meta**2+zi*meta*gameta)/feta**2
+     &        +1d0/(sh-meta**2+zi*gameta*sh**2/meta**3)/feta**2
          qedamp(1,1,1,1)=qedamp(1,1,1,1)
-     &        +1d0/(sh-metap**2+zi*metap*gametap)/fetap**2
+     &        +1d0/(sh-metap**2+zi*gametap*sh**2/metap**3)/fetap**2
          qedamp(1,1,1,1)=qedamp(1,1,1,1)*(-sh**2/4d0/pi**2)/8d0*zfs
 
 c         qedamp(1,1,1,2)=0d0
 
          qedamp(1,1,2,2)=qedamp(1,1,2,2)
-     &        +(sh**2/(sh-mpi0**2+zi*mpi0*gampi0)*zfs
-     &        +t**2/(t-mpi0**2+zi*mpi0*gampi0)*zft
-     &        +u**2/(u-mpi0**2+zi*mpi0*gampi0)*zfu)/fpi0**2
+     &        +(sh**2/(sh-mpi0**2+zi*gampi0*sh**2/mpi0**3)*zfs
+     &        +t**2/(t-mpi0**2)*zft
+     &        +u**2/(u-mpi0**2)*zfu)/fpi0**2
          qedamp(1,1,2,2)=qedamp(1,1,2,2)
-     &        +(sh**2/(sh-meta**2+zi*mpi0*gameta)*zfs
-     &        +t**2/(t-meta**2+zi*mpi0*gameta)*zft
-     &        +u**2/(u-meta**2+zi*mpi0*gameta)*zfu)/feta**2
+     &        +(sh**2/(sh-meta**2+zi*gameta*sh**2/meta**3)*zfs
+     &        +t**2/(t-meta**2)*zft
+     &        +u**2/(u-meta**2)*zfu)/feta**2
          qedamp(1,1,2,2)=qedamp(1,1,2,2)
-     &        +(sh**2/(sh-metap**2+zi*mpi0*gametap)*zfs
-     &        +t**2/(t-metap**2+zi*mpi0*gametap)*zft
-     &        +u**2/(u-metap**2+zi*mpi0*gametap)*zfu)/fetap**2
+     &        +(sh**2/(sh-metap**2+zi*gametap*sh**2/metap**3)*zfs
+     &        +t**2/(t-metap**2)*zft
+     &        +u**2/(u-metap**2)*zfu)/fetap**2
          qedamp(1,1,2,2)=qedamp(1,1,2,2)/4d0/pi**2/8d0
 
          qedamp(1,2,2,1)=qedamp(1,2,2,1)
-     &        +1d0/(t-mpi0**2+zi*mpi0*gampi0)/fpi0**2
+     &        +1d0/(t-mpi0**2)/fpi0**2
          qedamp(1,2,2,1)=qedamp(1,2,2,1)
-     &        +1d0/(t-meta**2+zi*meta*gameta)/feta**2
+     &        +1d0/(t-meta**2)/feta**2
          qedamp(1,2,2,1)=qedamp(1,2,2,1)
-     &        +1d0/(t-metap**2+zi*metap*gametap)/fetap**2
+     &        +1d0/(t-metap**2)/fetap**2
          qedamp(1,2,2,1)=qedamp(1,2,2,1)*(-t**2/4d0/pi**2)/8d0*zft
 
          qedamp(1,2,1,2)=qedamp(1,2,1,2)
-     &        +1d0/(u-mpi0**2+zi*mpi0*gampi0)/fpi0**2
+     &        +1d0/(u-mpi0**2)/fpi0**2
          qedamp(1,2,1,2)=qedamp(1,2,1,2)
-     &        +1d0/(u-meta**2+zi*meta*gameta)/feta**2
+     &        +1d0/(u-meta**2)/feta**2
          qedamp(1,2,1,2)=qedamp(1,2,1,2)
-     &        +1d0/(u-metap**2+zi*metap*gametap)/fetap**2
+     &        +1d0/(u-metap**2)/fetap**2
          qedamp(1,2,1,2)=qedamp(1,2,1,2)*(-u**2/4d0/pi**2)/8d0*zfu
 
          if(interpolate)then
@@ -323,7 +325,7 @@ c         qedamp(1,1,1,2)=0d0
      & -(1d0/2 - sh*u/t**2)*LOG(-u/sh)**2) 
 
       else
-         
+c         Fermion boxes
       b0fqsff = b0f2m(sh,mgen2i)
       b0ftsff = b0f2m(t,mgen2i)
       b0fusff = b0f2m(u,mgen2i)
@@ -370,7 +372,7 @@ c         qedamp(1,1,1,2)=0d0
 
       
       endif
-
+c     Dissection of Lepton boxes
       if(i.eq.3)then
          zlep(1)=qedamp(1,1,2,2)
          zlep(2)=qedamp(1,1,1,2)
@@ -423,7 +425,84 @@ ccccccccc  Normalize
          endif
 
       endif
+
+ccccccccc Bottomonium states
+     
+      if(bottomonium)then
+c     pseudoscalars eta_b_1S eta_b_2S
+         fretab1S=5.87d-5 
+         fretab2S=5.86d-5
          
+         fretab1S=fretab1S/alpha**2 ! match to normalization of qedamp
+         fretab2S=fretab2S/alpha**2 ! match to normalization of qedamp
+
+         gametab1S=17.9d-3
+         gametab2S=8.34d-3
+      
+         metab1S=9.399d0
+         metab2S=9.999d0
+
+         etab1S=gametab1S/(metab1S**3)
+         etab2S=gametab2S/(metab2S**3)
+c     scalars chi_b0_1P chi_b0_2P
+         frchib01P=5.87d-5
+         frchib02P=5.41d-5
+
+         frchib01P=frchib01P/alpha**2  ! match to normalization of qedamp
+         frchib02P=frchib02P/alpha**2  ! match to normalization of qedamp
+
+         gamchib01P=3.39d-3
+         gamchib02P=3.54d-3
+
+         mchib01P=9.85944d0
+         mchib02P=10.2325d0
+
+         chib01P=gamchib01P/(mchib01P**3)
+         chib02P=gamchib02P/(mchib02P**3)
+
+         qedamp(1,1,1,1)=qedamp(1,1,1,1)
+     &        +(etab1S*fretab1S/(sh-metab1S**2
+     &        +zi*etab1S*sh**2)
+     &        +etab2S*fretab2S/(sh-metab2S**2
+     &        +zi*etab2S*sh**2)
+     &        +chib01P*frchib01P/(sh-mchib01P**2
+     &        +zi*chib01P*sh**2)
+     &        +chib02P*frchib02P/(sh-mchib02P**2
+     &        +zi*chib02P*sh**2))*(-sh**2*16d0*pi)/8d0
+
+c     qedamp(1,1,1,2)=0d0
+
+         qedamp(1,1,2,2)=qedamp(1,1,2,2)
+     &        +(-etab1S*fretab1S*(sh**2/(sh-metab1S**2
+     &        +zi*etab1S*sh**2)
+     &        +t**2/(t-metab1S**2)
+     &        +u**2/(u-metab1S**2))
+     &        -etab2S*fretab2S*(sh**2/(sh-metab2S**2
+     &        +zi*etab2S*sh**2)
+     &        +t**2/(t-metab2S**2)
+     &        +u**2/(u-metab2S**2))
+     &        +chib01P*frchib01P*(sh**2/(sh-mchib01P**2
+     &        +zi*chib01P*sh**2)
+     &        +t**2/(t-mchib01P**2)
+     &        +u**2/(u-mchib01P**2))
+     &        +chib02P*frchib02P*(sh**2/(sh-mchib02P**2
+     &        +zi*chib02P*sh**2)
+     &        +t**2/(t-mchib02P**2)
+     &        +u**2/(u-mchib02P**2)))*(-16d0*pi)/8d0
+
+         qedamp(1,2,2,1)=qedamp(1,2,2,1)
+     &        +(etab1S*fretab1S/(t-metab1S**2)
+     &        +etab2S*fretab2S/(t-metab2S**2)
+     &        +chib01P*frchib01P/(t-mchib01P**2)
+     &        +chib02P*frchib02P/(t-mchib02P**2))*(-t**2*16d0*pi)/8d0
+
+         qedamp(1,2,1,2)=qedamp(1,2,1,2)
+     &        +(etab1S*fretab1S/(u-metab1S**2)
+     &        +etab2S*fretab2S/(u-metab2S**2)
+     &        +chib01P*frchib01P/(u-mchib01P**2)
+     &        +chib02P*frchib02P/(u-mchib02P**2))*(-u**2*16d0*pi)/8d0
+      endif
+
 ccccccccc
 
       if(loop.eq.'tot_quark'.or.loop.eq.'tot_sum'.or.loop.eq.'tot_meson'

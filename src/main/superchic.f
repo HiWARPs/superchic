@@ -108,6 +108,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'mphi.f'
       include 'lbylloop.f'
       include 'interpolate.f'
+      include 'bottomonium.f'
       
 ccccccc
 
@@ -264,6 +265,7 @@ ccccccc
       read(*,*)fermivar
       read(*,*)interpolate
       read(*,*)run3
+      read(*,*)bottomonium ! for bottomonium resonances inclusion
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccc

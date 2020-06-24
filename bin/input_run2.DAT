@@ -11,7 +11,7 @@
 ****************************************************************************************
 59   !  [proc] : Process number (see manual for labelling)
 'ion'    ! [beam] : Beam type ('prot', 'ion', 'ionp' or 'el')
-'test'       !  [outtg] : for output file
+'_run2b1'       !  [outtg] : for output file
 .true.        !  [sfaci] : Include soft survival effects
 ****************************************************************************************
 208d0  !  [an] : Ion mass number
@@ -36,8 +36,8 @@
 ****************************************************************************************
 ******************************* Unweighted events **************************************
 ****************************************************************************************
-.false.       ! [genunw] : Generate unweighted events
-10            ! [nev] : Number of events ( < 1000000 recommended)
+.true.       ! [genunw] : Generate unweighted events
+100        ! [nev] : Number of events ( < 1000000 recommended)
 'lhe'	      ! [erec] : Event record format ('hepmc','lhe','hepevt')
 .false.	      ! [readwt] : Set to true to read in pre-calculated maxium weight below
 0d0     ! [wtmax] : Maximum weight
@@ -46,8 +46,8 @@
 ****************************************************************************************
 -2.4d0           ! [ymin] : Minimum object rapidity Y_X
 2.4d0        ! [ymax] : Maximum object rapidity Y_X
-1d0          ! [mmin] : Minimum object mass M_X (redundant for resonance production)
-10d0         ! [mmax] : Maximum object mass M_X (redundant for resonance production)
+2d0          ! [mmin] : Minimum object mass M_X (redundant for resonance production)
+30d0         ! [mmax] : Maximum object mass M_X (redundant for resonance production)
 .true.        ! [gencuts] : Generate cuts below
 .true.        ! [scorr] : Include spin correlations (for chi_c/b decays)
 .true.	       ! [fwidth] : Include finite width (for chi_c decays)
@@ -151,5 +151,6 @@
 'xi/eta'   ! [fermivar]: either 'xi' or 'xi/eta'
 .true.   ! [interpolate] : interpolate between model + quark
 .false.   ! [run3] : if true impose E>1.5 GeV cut
+.true.	! [bottomonium] : if true include bottomonium resonances
 ****************************************************************************************
 ****************************************************************************************
