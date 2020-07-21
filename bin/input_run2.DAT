@@ -152,5 +152,7 @@
 .true.   ! [interpolate] : interpolate between model + quark
 .false.   ! [run3] : if true impose E>1.5 GeV cut
 .true.	! [bottomonium] : if true include bottomonium resonances
+.false.  ! [tetraquark] : if true include tetraquark state at 6.9 GeV
+.true.	! [interference_sc] : if true interference scheme parameters are used
 ****************************************************************************************
 ****************************************************************************************

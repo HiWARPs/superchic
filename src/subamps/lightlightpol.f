@@ -31,6 +31,7 @@
       include 'interpolate.f'
 
       include 'bottomonium.f' ! include bottomonium resonances
+      include 'tetraquark.f'  ! recently observed tetraq.resonance at 7 GeV
       
       
       mz=91.1876d0
@@ -426,12 +427,49 @@ ccccccccc  Normalize
 
       endif
 
+ccccccccc Recently detected tetraquark state
+
+      if(tetraquark)then
+
+         if(interference_sc)then
+            mtetraq=6.886d0 
+            gamtetraq=168d-3
+         else
+            mtetraq=6.905d0
+            gamtetraq=80d-3
+         endif
+
+         btetraq=5d-4
+         btetraq=btetraq/alpha**2 ! match to normalization of qedamp
+         tetraq=gamtetraq/(mtetraq**3)
+   
+         qedamp(1,1,1,1)=qedamp(1,1,1,1)
+     &        +tetraq*btetraq/(sh-mtetraq**2
+     &        +zi*tetraq*sh**2)*(-sh**2*16d0*pi)/8d0
+   
+c     qedamp(1,1,1,2)=0d0
+   
+         qedamp(1,1,2,2)=qedamp(1,1,2,2)
+     &        +teteraq*btetraq*(sh**2/(sh-mtetraq**2
+     &        +zi*tetraq*sh**2)
+     &        +t**2/(t-mtetraq**2)
+     &        +u**2/(u-mtetraq**2))*(-16d0*pi)/8d0
+   
+         qedamp(1,2,2,1)=qedamp(1,2,2,1)
+     &        +teteraq*btetraq/(t-mtetraq**2)*(-t**2*16d0*pi)/8d0
+   
+         qedamp(1,2,1,2)=qedamp(1,2,1,2)
+     &        +teteraq*btetraq/(u-mtetraq**2)*(-u**2*16d0*pi)/8d0
+      endif
+   
+
+
 ccccccccc Bottomonium states
      
       if(bottomonium)then
 c     pseudoscalars eta_b_1S eta_b_2S
-         fretab1S=5.87d-5 
-         fretab2S=5.86d-5
+         fretab1S=5.87d-5*15d0 
+         fretab2S=5.86d-5*15d0
          
          fretab1S=fretab1S/alpha**2 ! match to normalization of qedamp
          fretab2S=fretab2S/alpha**2 ! match to normalization of qedamp
@@ -445,8 +483,8 @@ c     pseudoscalars eta_b_1S eta_b_2S
          etab1S=gametab1S/(metab1S**3)
          etab2S=gametab2S/(metab2S**3)
 c     scalars chi_b0_1P chi_b0_2P
-         frchib01P=5.87d-5
-         frchib02P=5.41d-5
+         frchib01P=5.87d-5*15d0
+         frchib02P=5.41d-5*15d0
 
          frchib01P=frchib01P/alpha**2  ! match to normalization of qedamp
          frchib02P=frchib02P/alpha**2  ! match to normalization of qedamp
@@ -502,6 +540,7 @@ c     qedamp(1,1,1,2)=0d0
      &        +chib01P*frchib01P/(u-mchib01P**2)
      &        +chib02P*frchib02P/(u-mchib02P**2))*(-u**2*16d0*pi)/8d0
       endif
+
 
 ccccccccc
 

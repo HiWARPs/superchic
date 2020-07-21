@@ -32,7 +32,7 @@ c      open(10,file='../src/subamps/RHS4.dat')
       open(10,file='../src/subamps/Msrule.dat')
 
 c     do i=1,991
-      do i=1,395
+      do i=1,1995
          read(10,*)RHarr(1,i),RHarr(2,i),RHarr(3,i)
 c         RHarr(1,i)=dsqrt(RHarr(1,i))
       enddo

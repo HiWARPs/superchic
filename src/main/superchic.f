@@ -109,6 +109,8 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
       include 'lbylloop.f'
       include 'interpolate.f'
       include 'bottomonium.f'
+      include 'tetraquark.f'
+
       
 ccccccc
 
@@ -266,6 +268,9 @@ ccccccc
       read(*,*)interpolate
       read(*,*)run3
       read(*,*)bottomonium ! for bottomonium resonances inclusion
+      read(*,*)tetraquark
+      read(*,*)interference_sc
+
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -735,9 +740,8 @@ cccccccccccccccc
          it=it+1    
          ncall=ncall+inccall     
          ren=dble(ncall)
-
-         CALL VEGAS2(cs,AVGI,SD,CHI2A)
-      
+         
+         CALL VEGAS2(cs,AVGI,SD,CHI2A)     
 
          if(it.gt.itend)goto 778
 
@@ -770,9 +774,7 @@ c      ncall=nev
       if(ncall.lt.1000)ncall=1000
  566  ren=dble(ncall)
       itmx=1
-   
       CALL VEGAS2(cs,AVGI,SD,CHI2A)   
-
       if(evnum.lt.nev)then
 
       print*,''
