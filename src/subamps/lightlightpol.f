@@ -450,16 +450,16 @@ ccccccccc Recently detected tetraquark state
 c     qedamp(1,1,1,2)=0d0
    
          qedamp(1,1,2,2)=qedamp(1,1,2,2)
-     &        +teteraq*btetraq*(sh**2/(sh-mtetraq**2
+     &        +tetraq*btetraq*(sh**2/(sh-mtetraq**2
      &        +zi*tetraq*sh**2)
      &        +t**2/(t-mtetraq**2)
      &        +u**2/(u-mtetraq**2))*(-16d0*pi)/8d0
    
          qedamp(1,2,2,1)=qedamp(1,2,2,1)
-     &        +teteraq*btetraq/(t-mtetraq**2)*(-t**2*16d0*pi)/8d0
+     &        +tetraq*btetraq/(t-mtetraq**2)*(-t**2*16d0*pi)/8d0
    
          qedamp(1,2,1,2)=qedamp(1,2,1,2)
-     &        +teteraq*btetraq/(u-mtetraq**2)*(-u**2*16d0*pi)/8d0
+     &        +tetraq*btetraq/(u-mtetraq**2)*(-u**2*16d0*pi)/8d0
       endif
    
 
