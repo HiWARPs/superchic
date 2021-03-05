@@ -14,6 +14,7 @@
       include 'ptXcuts.f'
       include 'range.f'
       include 'interpolate.f'
+      include 'tetraquark.f'
 
       icut=0
 

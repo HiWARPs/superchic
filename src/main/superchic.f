@@ -32,6 +32,7 @@ c
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       program superchic
+      USE OMP_LIB
       implicit double precision (a-z)
       integer i,j,k
       integer nhistmax
@@ -270,6 +271,7 @@ ccccccc
       read(*,*)bottomonium ! for bottomonium resonances inclusion
       read(*,*)tetraquark
       read(*,*)interference_sc
+      read(*,*)btetraq
 
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -740,9 +742,9 @@ cccccccccccccccc
          it=it+1    
          ncall=ncall+inccall     
          ren=dble(ncall)
-         
-         CALL VEGAS2(cs,AVGI,SD,CHI2A)     
 
+         CALL VEGAS2(cs,AVGI,SD,CHI2A)     
+         PRINT *, 'Flag VEGAS2'              !Flag. should be deleted
          if(it.gt.itend)goto 778
 
          goto 777

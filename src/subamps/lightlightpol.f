@@ -33,7 +33,7 @@
       include 'bottomonium.f' ! include bottomonium resonances
       include 'tetraquark.f'  ! recently observed tetraq.resonance at 7 GeV
       
-      
+  
       mz=91.1876d0
       stw=0.48076d0
       ctw=dsqrt(1d0-stw**2)
@@ -452,7 +452,7 @@ c        energy dependent widht
          if(sh .gt. 4*mjpsi**2)then
          tqwidth=gamtetraq*mtetraq*sqrt((1-4/ratioS)/(1-4/ratioM))*(2
      &    +(ratioS-2)**2)/((ratioM-2)**2+2)
-   	   endif
+   	 endif
    	 
 c	 amplitudes   	 
          qedamp(1,1,1,1)=qedamp(1,1,1,1)
@@ -522,47 +522,39 @@ c     scalars chi_b0_1P chi_b0_2P
      &        +chib02P*frchib02P*mchib02P**2/(sh-mchib02P**2
      &        +zi*chib02P*sh*mchib02P**2))*(-sh*16d0*pi)/8d0
 
-         qedamp(1,1,1,1)=qedamp(1,1,1,1)
-     &        +(etab1S*fretab1S/(sh-metab1S**2
-     &        +zi*etab1S*sh**2)
-     &        +etab2S*fretab2S/(sh-metab2S**2
-     &        +zi*etab2S*sh**2)
-     &        +chib01P*frchib01P/(sh-mchib01P**2
-     &        +zi*chib01P*sh**2)
-     &        +chib02P*frchib02P/(sh-mchib02P**2
-     &        +zi*chib02P*sh**2))*(-sh**2*16d0*pi)/8d0
-
 c     qedamp(1,1,1,2)=0d0
 
          qedamp(1,1,2,2)=qedamp(1,1,2,2)
-     &        +(-etab1S*fretab1S*(sh**2/(sh-metab1S**2
-     &        +zi*etab1S*sh**2)
-     &        +t**2/(t-metab1S**2)
-     &        +u**2/(u-metab1S**2))
-     &        -etab2S*fretab2S*(sh**2/(sh-metab2S**2
-     &        +zi*etab2S*sh**2)
-     &        +t**2/(t-metab2S**2)
-     &        +u**2/(u-metab2S**2))
-     &        +chib01P*frchib01P*(sh**2/(sh-mchib01P**2
-     &        +zi*chib01P*sh**2)
-     &        +t**2/(t-mchib01P**2)
-     &        +u**2/(u-mchib01P**2))
-     &        +chib02P*frchib02P*(sh**2/(sh-mchib02P**2
-     &        +zi*chib02P*sh**2)
-     &        +t**2/(t-mchib02P**2)
-     &        +u**2/(u-mchib02P**2)))*(-16d0*pi)/8d0
+     &        +(-etab1S*fretab1S*(sh*metab1S**2/(sh-metab1S**2
+     &        +zi*etab1S*sh*metab1S**2)
+     &        +t*metab1S**2/(t-metab1S**2)
+     &        +u*metab1S**2/(u-metab1S**2))
+     &        -etab2S*fretab2S*(sh*metab2S**2/(sh-metab2S**2
+     &        +zi*etab2S*sh*metab2S**2)
+     &        +t*metab2S**2/(t-metab2S**2)
+     &        +u*metab2S**2/(u-metab2S**2))
+     &        +chib01P*frchib01P*(sh*mchib01P**2/(sh-mchib01P**2
+     &        +zi*chib01P*sh*mchib01P**2)
+     &        +t*mchib01P**2/(t-mchib01P**2)
+     &        +u*mchib01P**2/(u-mchib01P**2))
+     &        +chib02P*frchib02P*(sh*mchib02P**2/(sh-mchib02P**2
+     &        +zi*chib02P*sh*mchib02P**2)
+     &        +t*mchib02P**2/(t-mchib02P**2)
+     &        +u*mchib02P**2/(u-mchib02P**2)))*(-16d0*pi)/8d0
 
          qedamp(1,2,2,1)=qedamp(1,2,2,1)
-     &        +(etab1S*fretab1S/(t-metab1S**2)
-     &        +etab2S*fretab2S/(t-metab2S**2)
-     &        +chib01P*frchib01P/(t-mchib01P**2)
-     &        +chib02P*frchib02P/(t-mchib02P**2))*(-t**2*16d0*pi)/8d0
+     &        +(etab1S*fretab1S*metab1S**2/(t-metab1S**2)
+     &        +etab2S*fretab2S*metab2S**2/(t-metab2S**2)
+     &        +chib01P*frchib01P*mchib01P**2/(t-mchib01P**2)
+     &        +chib02P*frchib02P*mchib02P**2/(t
+     &        -mchib02P**2))*(-t*16d0*pi)/8d0
 
          qedamp(1,2,1,2)=qedamp(1,2,1,2)
-     &        +(etab1S*fretab1S/(u-metab1S**2)
-     &        +etab2S*fretab2S/(u-metab2S**2)
-     &        +chib01P*frchib01P/(u-mchib01P**2)
-     &        +chib02P*frchib02P/(u-mchib02P**2))*(-u**2*16d0*pi)/8d0
+     &        +(etab1S*fretab1S*metab1S**2/(u-metab1S**2)
+     &        +etab2S*fretab2S9*metab2S**2/(u-metab2S**2)
+     &        +chib01P*frchib01P*mchib01P**2/(u-mchib01P**2)
+     &        +chib02P*frchib02P*mchib02P**2/(u
+     &        -mchib02P**2))*(-u*16d0*pi)/8d0
       endif
 
 

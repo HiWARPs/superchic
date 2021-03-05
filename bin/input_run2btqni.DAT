@@ -11,7 +11,7 @@
 ****************************************************************************************
 59   !  [proc] : Process number (see manual for labelling)
 'ion'    ! [beam] : Beam type ('prot', 'ion', 'ionp' or 'el')
-'_run3l'       !  [outtg] : for output file
+'_run2btq10K'       !  [outtg] : for output file
 .true.        !  [sfaci] : Include soft survival effects
 ****************************************************************************************
 208d0  !  [an] : Ion mass number
@@ -37,7 +37,7 @@
 ******************************* Unweighted events **************************************
 ****************************************************************************************
 .true.       ! [genunw] : Generate unweighted events
-2000            ! [nev] : Number of events ( < 1000000 recommended)
+10000        ! [nev] : Number of events ( < 1000000 recommended)
 'lhe'	      ! [erec] : Event record format ('hepmc','lhe','hepevt')
 .false.	      ! [readwt] : Set to true to read in pre-calculated maxium weight below
 0d0     ! [wtmax] : Maximum weight
@@ -46,8 +46,8 @@
 ****************************************************************************************
 -2.4d0           ! [ymin] : Minimum object rapidity Y_X
 2.4d0        ! [ymax] : Maximum object rapidity Y_X
-1d0          ! [mmin] : Minimum object mass M_X (redundant for resonance production)
-10d0         ! [mmax] : Maximum object mass M_X (redundant for resonance production)
+2d0          ! [mmin] : Minimum object mass M_X (redundant for resonance production)
+30d0         ! [mmax] : Maximum object mass M_X (redundant for resonance production)
 .true.        ! [gencuts] : Generate cuts below
 .true.        ! [scorr] : Include spin correlations (for chi_c/b decays)
 .true.	       ! [fwidth] : Include finite width (for chi_c decays)
@@ -60,12 +60,12 @@
 ****************************************************************************************
 ************************* 2 body final states : p(a) + p(b) ****************************
 ****************************************************************************************
-0d0         ! [ptamin]
-0d0         ! [ptbmin]
--4.7d0         ! [etaamin]
-4.7d0       ! [etaamax]
--4.7d0         ! [etabmin]
-4.7d0       ! [etabmax]
+2.5d0         ! [ptamin]
+2.5d0         ! [ptbmin]
+-2.4d0         ! [etaamin]
+2.4d0       ! [etaamax]
+-2.4d0         ! [etabmin]
+2.4d0       ! [etabmax]
 10d0        ! [acoabmax]
 ****************************************************************************************
 ********************** 3 body final states : p(a) + p(b) + p(c) ************************
@@ -146,13 +146,14 @@
 ****************************************************************************************
 ******  LbyL loop
 ****************************************************************************************
-'lep'  ! [loop] : loop in LbyL ('tot','lep','quark','w','pion','meson','sum')
+'tot_sum'  ! [loop] : loop in LbyL ('tot','lep','quark','w','pion','meson','sum')
 0.1d0    ! [kappa]
 'xi/eta'   ! [fermivar]: either 'xi' or 'xi/eta'
 .true.   ! [interpolate] : interpolate between model + quark
-.true.   ! [run3] : if true impose E>1.5 GeV cut
-.true.	! [bottomonium] : if true include bottomonium resonances
-.false.  ! [tetraquark] : if true include tetraquark state at 6.9 GeV
-.true.	! [interference_sc] : if true interference scheme parameters are used
+.false.   ! [run3] : if true impose E>1.5 GeV cut
+.true.  ! [bottomonium] : if true include bottomonium resonances
+.true.  ! [tetraquark] : if true include tetraquark state at 6.9 GeV
+.false.	! [interference_sc] : if true interference scheme parameters are used
+5.57234d-4	! [btetraq] : branching fraction of tetraqark lbl decay mode
 ****************************************************************************************
 ****************************************************************************************

@@ -11,7 +11,7 @@
 ****************************************************************************************
 59   !  [proc] : Process number (see manual for labelling)
 'ion'    ! [beam] : Beam type ('prot', 'ion', 'ionp' or 'el')
-'_run2b1'       !  [outtg] : for output file
+'_run2btqi10K'       !  [outtg] : for output file
 .true.        !  [sfaci] : Include soft survival effects
 ****************************************************************************************
 208d0  !  [an] : Ion mass number
@@ -37,7 +37,7 @@
 ******************************* Unweighted events **************************************
 ****************************************************************************************
 .true.       ! [genunw] : Generate unweighted events
-100        ! [nev] : Number of events ( < 1000000 recommended)
+10000        ! [nev] : Number of events ( < 1000000 recommended)
 'lhe'	      ! [erec] : Event record format ('hepmc','lhe','hepevt')
 .false.	      ! [readwt] : Set to true to read in pre-calculated maxium weight below
 0d0     ! [wtmax] : Maximum weight
@@ -146,13 +146,14 @@
 ****************************************************************************************
 ******  LbyL loop
 ****************************************************************************************
-'quark'  ! [loop] : loop in LbyL ('tot','lep','quark','w','pion','meson','sum')
+'tot_sum'  ! [loop] : loop in LbyL ('tot','lep','quark','w','pion','meson','sum')
 0.1d0    ! [kappa]
 'xi/eta'   ! [fermivar]: either 'xi' or 'xi/eta'
 .true.   ! [interpolate] : interpolate between model + quark
 .false.   ! [run3] : if true impose E>1.5 GeV cut
-.true.	! [bottomonium] : if true include bottomonium resonances
-.false.  ! [tetraquark] : if true include tetraquark state at 6.9 GeV
+.true.  ! [bottomonium] : if true include bottomonium resonances
+.true.  ! [tetraquark] : if true include tetraquark state at 6.9 GeV
 .true.	! [interference_sc] : if true interference scheme parameters are used
+3.93119d-4	! [btetraq] : branching fraction of tetraqark lbl decay mode
 ****************************************************************************************
 ****************************************************************************************
