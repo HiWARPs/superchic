@@ -428,6 +428,8 @@ ccccccccc  Normalize
       endif
 
 ccccccccc Recently detected tetraquark state
+	
+	mjpsi = 3.0969d0
 
       if(tetraquark)then
 
@@ -438,28 +440,40 @@ ccccccccc Recently detected tetraquark state
             mtetraq=6.905d0
             gamtetraq=80d-3
          endif
-
-         btetraq=5d-4
-         btetraq=btetraq/alpha**2 ! match to normalization of qedamp
-         tetraq=gamtetraq/(mtetraq**3)
-   
+C         btetraq=5d-4
+         btq=btetraq/alpha**2 ! match to normalization of qedamp
+         
+c        energy dependent widht 
+         tqwidth=0d0
+         
+         ratioM=(mtetraq/mjpsi)**2
+         ratioS=sh/(mjpsi**2)
+         
+         if(sh .gt. 4*mjpsi**2)then
+         tqwidth=gamtetraq*mtetraq*sqrt((1-4/ratioS)/(1-4/ratioM))*(2
+     &    +(ratioS-2)**2)/((ratioM-2)**2+2)
+   	   endif
+   	 
+c	 amplitudes   	 
          qedamp(1,1,1,1)=qedamp(1,1,1,1)
-     &        +tetraq*btetraq/(sh-mtetraq**2
-     &        +zi*tetraq*sh**2)*(-sh**2*16d0*pi)/8d0
+     &        +gamtetraq/mtetraq*btq/(sh-mtetraq**2
+     &        +zi*tqwidth)*(-sh*16d0*pi)/8d0
    
 c     qedamp(1,1,1,2)=0d0
    
          qedamp(1,1,2,2)=qedamp(1,1,2,2)
-     &        +tetraq*btetraq*(sh**2/(sh-mtetraq**2
-     &        +zi*tetraq*sh**2)
-     &        +t**2/(t-mtetraq**2)
-     &        +u**2/(u-mtetraq**2))*(-16d0*pi)/8d0
+     &        +gamtetraq/mtetraq*btq*(sh/(sh-mtetraq**2
+     &        +zi*tqwidth)
+     &        +t/(t-mtetraq**2)
+     &        +u/(u-mtetraq**2))*(-16d0*pi)/8d0
    
          qedamp(1,2,2,1)=qedamp(1,2,2,1)
-     &        +tetraq*btetraq/(t-mtetraq**2)*(-t**2*16d0*pi)/8d0
+     &        +gamtetraq/mtetraq*btq/(t
+     &		-mtetraq**2)*(-t*16d0*pi)/8d0
    
          qedamp(1,2,1,2)=qedamp(1,2,1,2)
-     &        +tetraq*btetraq/(u-mtetraq**2)*(-u**2*16d0*pi)/8d0
+     &        +gamtetraq/mtetraq*btq/(u
+     &		-mtetraq**2)*(-u*16d0*pi)/8d0
       endif
    
 
@@ -468,35 +482,45 @@ ccccccccc Bottomonium states
      
       if(bottomonium)then
 c     pseudoscalars eta_b_1S eta_b_2S
-         fretab1S=5.87d-5*15d0 
-         fretab2S=5.86d-5*15d0
+         fretab1S=5.87d-5 	!branching ratios
+         fretab2S=5.86d-5
          
          fretab1S=fretab1S/alpha**2 ! match to normalization of qedamp
          fretab2S=fretab2S/alpha**2 ! match to normalization of qedamp
 
-         gametab1S=17.9d-3
+         gametab1S=17.9d-3	!total widths
          gametab2S=8.34d-3
       
-         metab1S=9.399d0
+         metab1S=9.399d0	!masses
          metab2S=9.999d0
 
          etab1S=gametab1S/(metab1S**3)
          etab2S=gametab2S/(metab2S**3)
 c     scalars chi_b0_1P chi_b0_2P
-         frchib01P=5.87d-5*15d0
-         frchib02P=5.41d-5*15d0
+         frchib01P=5.87d-5	!branching ratios
+         frchib02P=5.41d-5
 
          frchib01P=frchib01P/alpha**2  ! match to normalization of qedamp
          frchib02P=frchib02P/alpha**2  ! match to normalization of qedamp
 
-         gamchib01P=3.39d-3
+         gamchib01P=3.39d-3	!total widths
          gamchib02P=3.54d-3
 
-         mchib01P=9.85944d0
+         mchib01P=9.85944d0	!masses
          mchib02P=10.2325d0
 
          chib01P=gamchib01P/(mchib01P**3)
          chib02P=gamchib02P/(mchib02P**3)
+
+         qedamp(1,1,1,1)=qedamp(1,1,1,1)
+     &        +(etab1S*fretab1S*metab1S**2/(sh-metab1S**2
+     &        +zi*etab1S*sh*metab1S**2)
+     &        +etab2S*fretab2S*metab2S**2/(sh-metab2S**2
+     &        +zi*etab2S*sh*metab2S**2)
+     &        +chib01P*frchib01P*mchib01P**2/(sh-mchib01P**2
+     &        +zi*chib01P*sh*mchib01P**2)
+     &        +chib02P*frchib02P*mchib02P**2/(sh-mchib02P**2
+     &        +zi*chib02P*sh*mchib02P**2))*(-sh*16d0*pi)/8d0
 
          qedamp(1,1,1,1)=qedamp(1,1,1,1)
      &        +(etab1S*fretab1S/(sh-metab1S**2
