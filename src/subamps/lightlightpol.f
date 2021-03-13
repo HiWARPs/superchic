@@ -436,9 +436,11 @@ ccccccccc Recently detected tetraquark state
          if(interference_sc)then
             mtetraq=6.886d0 
             gamtetraq=168d-3
+            gamtetraq=gamtetraq*xtotwidth
          else
             mtetraq=6.905d0
             gamtetraq=80d-3
+            gamtetraq=gamtetraq*xtotwidth
          endif
 C         btetraq=5d-4
          btq=btetraq/alpha**2 ! match to normalization of qedamp

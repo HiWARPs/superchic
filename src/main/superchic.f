@@ -272,6 +272,7 @@ ccccccc
       read(*,*)tetraquark
       read(*,*)interference_sc
       read(*,*)btetraq
+      read(*,*)xtotwidth
 
 
 cccccccccccccccccccccccccccccccccccccccccccccccccccc

@@ -1,4 +1,4 @@
       logical tetraquark,interference_sc
-      double precision btetraq
+      double precision btetraq,xtotwidth
       common/tetraquark/tetraquark,interference_sc
-      common/btetraq/btetraq
+      common/tetraquark/btetraq,xtotwidth
