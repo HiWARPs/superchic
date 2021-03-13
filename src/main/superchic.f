@@ -32,7 +32,6 @@ c
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
       program superchic
-      USE OMP_LIB
       implicit double precision (a-z)
       integer i,j,k
       integer nhistmax
